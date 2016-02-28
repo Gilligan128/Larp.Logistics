@@ -1,0 +1,14 @@
+
+  "name": "larp-logistics",
+  "version": "0.0.0",
+  "description": "Manages Logistics for a Larp",
+  "private": true,
+  "main": "server.js",
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheACSI/Lewis-Authoring.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+}

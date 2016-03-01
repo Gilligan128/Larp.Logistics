@@ -39,7 +39,7 @@ router.post('/login', passport.authenticate('local-login', {
 // Facebook routes
 router.get('/auth/facebook', function(req,res,next) {
   console.log('base url: ' + req.baseUrl);
-  passport.authenticate('facebook', { scope: 'email', callbackURL: 'http://larp-dev.herokuapp.com/auth/facebook/callback' })(req,res,next);
+  passport.authenticate('facebook', { scope: 'email', callbackURL: 'http://larp-dev.herokuapp.com/auth/facebook/callback/' })(req,res,next);
   });
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
   successRedirect: '/profile',

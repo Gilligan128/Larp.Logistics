@@ -3,18 +3,15 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
-app.set('port', (process.env.PORT || 3000));
-
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var flash = require('connect-flash');
 var session = require('express-session');
 
 var app = express();
+app.set('port', (process.env.PORT || 3000));
 
 require('./config/passport')(passport);
 

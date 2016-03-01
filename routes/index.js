@@ -38,7 +38,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 // Facebook routes
 router.get('/auth/facebook', function(req,res,next) {
-  console.log('abse url: ' req.baseUrl);
+  console.log('abse url: ' + req.baseUrl);
   passport.authenticate('facebook', { scope: 'email', callbackURL: req.baseUrl +'/auth/facebook/callback' })(req,res,next);
   });
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {

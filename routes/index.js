@@ -38,7 +38,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 // Facebook routes
 router.get('/auth/facebook', function(req,res,next) {
-  passport.authenticate('facebook', { scope: 'email', callbackURL: req.baseUrl +'/auth/facebook/callback' })(req,res,next);
+  passport.authenticate('facebook', { scope: 'email', callbackURL: req.baseUrl +'auth/facebook/callback' })(req,res,next);
   });
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
   successRedirect: '/profile',

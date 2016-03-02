@@ -3,8 +3,8 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var generalRoutes = require('./routes/index');
+var authRoutes = require('/auth/routes.js');
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var flash = require('connect-flash');
@@ -30,8 +30,8 @@ app.use(passport.session());
 app.use(flash());
 
 app.use('/static', express.static(__dirname + '/public'));
-app.use('/', routes);
-app.use('/users', users);
+app.use('/', generalRoutes);
+app.use('/auth/routes', authRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<% include partials/head %>
+<body>
+  <div id='content' />
+  <% include partials/scripts %>
+</body>
+<script type="text/babel">
+var colors = [
+  { name: 'Red', tag:'red' },
+  { name: 'Blue', tag:'blue' },
+  { name: 'Black', tag:'black' },
+  { name: 'Green', tag:'green' },
+];
+var ColorList = React.createClass(
+  {
+    render: function(){
+       return (
+         <div class='row' >
+         {this.props.colors.map(function(color){
+           return (
+             <div>
+             <label for='color-{color-name}' style={{color:color.tag}} >{color.name}</label>
+             <input name='color-{color.name}' value={1}/>
+             </div>
+             );}
+         )}
+         </div>
+       );
+    }
+  }
+);
+var PullList = React.createClass({
+    render: function() {
+      return (<span></span>);
+    }
+  });
+
+var RitualsApp = React.createClass({
+  getInitialState: function() {
+    return {pulls: []};
+  },
+  render: function() {
+    return (
+      <div class='row'>
+        <h4>Ritual Pulls</h4>
+        <ColorList colors={this.props.colors}  />
+        <PullList pulls={this.state.pulls} />
+      </div>
+    )}
+});
+
+ReactDOM.render(<RitualsApp colors={colors} />, document.getElementById('content'));
+
+var rand = function(min, max) {
+    return Math.random() * (max - min) + min;
+};
+
+var getRandomItem = function(list, weight) {
+    var total_weight = weight.reduce(function (prev, cur, i, arr) {
+        return prev + cur;
+    });
+
+    var random_num = rand(0, total_weight);
+    var weight_sum = 0;
+    //console.log(random_num)
+
+    for (var i = 0; i < list.length; i++) {
+        weight_sum += weight[i];
+        weight_sum = +weight_sum.toFixed(2);
+
+        if (random_num <= weight_sum) {
+            return list[i];
+        }
+    }
+
+    // end of function
+};
+</script>
+</html>

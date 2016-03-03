@@ -27,6 +27,9 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
   callbackURL: '/auth/facebook/callback'
 }));
 
+router.use('/rituals', require('../features/rituals/routes.js'));
+router.use('/tags', require('../features/tags/routes.js'));
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {

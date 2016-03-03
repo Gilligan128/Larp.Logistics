@@ -30,6 +30,7 @@ app.use(flash());
 
 app.use('/static', express.static(__dirname + '/public'));
 app.use('/', generalRoutes);
+app.use('/tags', require('./features/tags/routes.js'))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

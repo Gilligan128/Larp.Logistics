@@ -15,39 +15,60 @@ var colors = [
 var ColorList = React.createClass(
   {
     render: function(){
+       var self = this;
        return (
-         <div class='row' >
+         <form >
          {this.props.colors.map(function(color){
            return (
-             <div>
+             <div key={color.name}>
              <label for='color-{color-name}' style={{color:color.tag}} >{color.name}</label>
-             <input name='color-{color.name}' value={1}/>
+             <input name='color-{color.name}' value={color.quantity} onChange={self.handleChange.bind(self, color.name)}/>
              </div>
              );}
          )}
-         </div>
+         </form>
        );
-    }
+    },
+    handleChange: function(colorName, event){
+      this.props.onQuantityChange(colorName, event.target.value);
+    },
   }
 );
 var PullList = React.createClass({
     render: function() {
-      return (<span></span>);
+      return (
+        <ul>
+        {this.props.colors.map(function(color){
+          return (
+            <li key={color.name}>{color.name},{color.quantity}</li>
+          )})}
+       </ul>
+      );
     }
   });
 
 var RitualsApp = React.createClass({
   getInitialState: function() {
-    return {pulls: []};
+    return {
+      pulls: [],
+      colorQuantities: this.props.colors.map(function(color){return { name:color.name, tag:color.tag, quantity:0 };})
+    };
   },
+
+  onQuantityChange: function (colorName, quantity){
+        this.state.colorQuantities.filter(function(color){ return color.name == colorName}).forEach(function(color){color.quantity = quantity});
+        this.setState({
+          colorQuantities: this.state.colorQuantities
+        });
+      },
   render: function() {
     return (
       <div class='row'>
         <h4>Ritual Pulls</h4>
-        <ColorList colors={this.props.colors}  />
-        <PullList pulls={this.state.pulls} />
+        <ColorList colors={this.state.colorQuantities} onQuantityChange={this.onQuantityChange} />
+        <PullList colors={this.state.colorQuantities} />
       </div>
-    )}
+    )},
 });
 
 ReactDOM.render(<RitualsApp colors={colors} />, document.getElementById('content'));

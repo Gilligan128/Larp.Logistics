@@ -93,7 +93,8 @@ var RitualsApp = React.createClass({
         <h4>Ritual Pulls</h4>
         <ColorList colors={this.state.colorQuantities} onQuantityChange={this.onQuantityChange} />
         <form onSubmit={this.pullFromBag} >
-        <input type='text' value={this.state.pullQuantity} onChange={this.onPullQuantityChange} />
+        <label for='pullQuantity' >Number to pull</label>
+        <input name='pullQuantity' type='text' value={this.state.pullQuantity} onChange={this.onPullQuantityChange} />
         <input type='submit' class='btn btn-primary' value='Pull' />
         </form>
         <PullList colors={this.state.colorQuantities} pulls={this.state.pulls} />

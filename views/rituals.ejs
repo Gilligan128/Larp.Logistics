@@ -38,6 +38,8 @@ var PullList = React.createClass({
     render: function() {
       var self = this;
       return (
+        <div>
+        <h5>Results: </h5>
         <ul>
         { this.props.pulls.map(function(pull, index){
           var color = self.props.colors.filter(color => color.name == pull)[0];
@@ -45,6 +47,7 @@ var PullList = React.createClass({
             <li key={color.name + '.' + index} style={{color: color.tag}}>{color.name}</li>
           )})}
        </ul>
+       </div>
       );
     }
   });

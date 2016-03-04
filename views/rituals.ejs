@@ -7,10 +7,10 @@
 </body>
 <script type="text/babel">
 var colors = [
-  { name: 'Red', tag:'red' },
+  { name: 'White', tag:'black'},
   { name: 'Blue', tag:'blue' },
   { name: 'Black', tag:'black' },
-  { name: 'Green', tag:'green' },
+  { name: 'Red', tag:'red'},
 ];
 var ColorList = React.createClass(
   {
@@ -18,10 +18,10 @@ var ColorList = React.createClass(
        var self = this;
        return (
          <form >
-         {this.props.colors.map(function(color, index){
+         {this.props.colors.map(function(color){
            return (
              <div key={color.name}>
-             <label for='color-{color-name}' style={{color:color.tag}} >{color.name}</label>
+             <label for='color-{color-name}' style={{color:color.tag, backgroundColor: color.background || 'white'}} >{color.name}</label>
              <input name='color-{color.name}' value={color.quantity} onChange={self.handleChange.bind(self, color.name)}/>
              </div>
              );}
@@ -40,13 +40,13 @@ var PullList = React.createClass({
       return (
         <div>
         <h5>Results: </h5>
-        <ul>
+        <ol>
         { this.props.pulls.map(function(pull, index){
           var color = self.props.colors.filter(color => color.name == pull)[0];
           return (
             <li key={color.name + '.' + index} style={{color: color.tag}}>{color.name}</li>
           )})}
-       </ul>
+       </ol>
        </div>
       );
     }
@@ -56,7 +56,7 @@ var RitualsApp = React.createClass({
   getInitialState: function() {
     return {
       pulls: [],
-      colorQuantities: this.props.colors.map(function(color){return { name:color.name, tag:color.tag, quantity:0 };}),
+      colorQuantities: this.props.colors.map(function(color){return { name:color.name, tag:color.tag, background: color.background, quantity:0 };}),
       pullQuantity: 1
     };
   },

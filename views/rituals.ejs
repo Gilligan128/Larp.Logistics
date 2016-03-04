@@ -18,7 +18,7 @@ var ColorList = React.createClass(
        var self = this;
        return (
          <form >
-         {this.props.colors.map(function(color){
+         {this.props.colors.map(function(color, index){
            return (
              <div key={color.name}>
              <label for='color-{color-name}' style={{color:color.tag}} >{color.name}</label>
@@ -36,11 +36,13 @@ var ColorList = React.createClass(
 );
 var PullList = React.createClass({
     render: function() {
+      var self = this;
       return (
         <ul>
-        {this.props.colors.map(function(color){
+        { this.props.pulls.map(function(pull, index){
+          var color = self.props.colors.filter(color => color.name == pull)[0];
           return (
-            <li key={color.name}>{color.name},{color.quantity}</li>
+            <li key={color.name + '.' + index} style={{color: color.tag}}>{color.name}</li>
           )})}
        </ul>
       );
@@ -51,22 +53,47 @@ var RitualsApp = React.createClass({
   getInitialState: function() {
     return {
       pulls: [],
-      colorQuantities: this.props.colors.map(function(color){return { name:color.name, tag:color.tag, quantity:0 };})
+      colorQuantities: this.props.colors.map(function(color){return { name:color.name, tag:color.tag, quantity:0 };}),
+      pullQuantity: 1
     };
   },
 
   onQuantityChange: function (colorName, quantity){
-        this.state.colorQuantities.filter(function(color){ return color.name == colorName}).forEach(function(color){color.quantity = quantity});
+        this.state.colorQuantities.filter(color => color.name == colorName).forEach(color => color.quantity = quantity);
         this.setState({
           colorQuantities: this.state.colorQuantities
         });
       },
+  onPullQuantityChange: function (event) {
+    this.setState({ pullQuantity: event.target.value});
+  },
+ pullFromBag: function (event){
+   event.preventDefault();
+   var totalMarbles = 0;
+    for(var i = 0, len = this.state.colorQuantities.length; i < len; i++) {
+      totalMarbles += +(this.state.colorQuantities[i].quantity);
+    }
+
+   var colorWeights = this.state.colorQuantities.map(function(color){ return +((color.quantity / totalMarbles).toFixed(2))});
+   var colors = this.state.colorQuantities.map(function(color){return color.name});
+
+   var pulls = [];
+   for(var i = 0; i < this.state.pullQuantity; i++) {
+     var color = getRandomItem(colors, colorWeights);
+     pulls.push(color);
+   }
+   this.setState({ pulls: pulls});
+ },
   render: function() {
     return (
       <div class='row'>
         <h4>Ritual Pulls</h4>
         <ColorList colors={this.state.colorQuantities} onQuantityChange={this.onQuantityChange} />
-        <PullList colors={this.state.colorQuantities} />
+        <form onSubmit={this.pullFromBag} >
+        <input type='text' value={this.state.pullQuantity} onChange={this.onPullQuantityChange} />
+        <input type='submit' class='btn btn-primary' value='Pull' />
+        </form>
+        <PullList colors={this.state.colorQuantities} pulls={this.state.pulls} />
       </div>
     )},
 });
@@ -76,6 +103,7 @@ ReactDOM.render(<RitualsApp colors={colors} />, document.getElementById('content
 var rand = function(min, max) {
     return Math.random() * (max - min) + min;
 };
+
 
 var getRandomItem = function(list, weight) {
     var total_weight = weight.reduce(function (prev, cur, i, arr) {

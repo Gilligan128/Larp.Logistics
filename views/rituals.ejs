@@ -17,16 +17,18 @@ var ColorList = React.createClass(
     render: function(){
        var self = this;
        return (
-         <form >
-         {this.props.colors.map(function(color){
-           return (
-             <div key={color.name}>
-             <label for='color-{color-name}' style={{color:color.tag, backgroundColor: color.background || 'white'}} >{color.name}</label>
-             <input name='color-{color.name}' value={color.quantity} onChange={self.handleChange.bind(self, color.name)}/>
-             </div>
-             );}
-         )}
-         </form>
+         <div>
+           {this.props.colors.map(function(color){
+             return (
+               <div className='form-group' key={color.name}>
+                 <label className='control-label col-xs-2' htmlFor='color-{color-name}' style={{color:color.tag, backgroundColor: color.background || 'white'}} >{color.name}</label>
+                <div className='col-xs-4'>
+                 <input name='color-{color.name}' className='form-control' value={color.quantity} onChange={self.handleChange.bind(self, color.name)}/>
+                </div>
+               </div>
+               );}
+           )}
+         </div>
        );
     },
     handleChange: function(colorName, event){
@@ -38,7 +40,7 @@ var PullList = React.createClass({
     render: function() {
       var self = this;
       return (
-        <div>
+        <div className='row'>
         <h5>Results: </h5>
         <ol>
         { this.props.pulls.map(function(pull, index){
@@ -89,13 +91,21 @@ var RitualsApp = React.createClass({
  },
   render: function() {
     return (
-      <div class='row'>
+      <div className='container'>
         <h4>Ritual Pulls</h4>
-        <ColorList colors={this.state.colorQuantities} onQuantityChange={this.onQuantityChange} />
-        <form onSubmit={this.pullFromBag} >
-        <label for='pullQuantity' >Number to pull</label>
-        <input name='pullQuantity' type='text' value={this.state.pullQuantity} onChange={this.onPullQuantityChange} />
-        <input type='submit' class='btn btn-primary' value='Pull' />
+        <form onSubmit={this.pullFromBag} role='form' className='form-horizontal' >
+          <fieldset>
+            <ColorList colors={this.state.colorQuantities} onQuantityChange={this.onQuantityChange} />
+            <div className='form-group'>
+              <label htmlFor='pullQuantity' className='control-label col-xs-2'>Number to pull</label>
+              <div className='col-xs-4'>
+                <input className='form-control' name='pullQuantity' type='text' value={this.state.pullQuantity} onChange={this.onPullQuantityChange} />
+              </div>
+            </div>
+           </fieldset>
+            <fieldset>
+            <button type='submit' className='btn btn-default'>Pull</button>
+            </fieldset>
         </form>
         <PullList colors={this.state.colorQuantities} pulls={this.state.pulls} />
       </div>

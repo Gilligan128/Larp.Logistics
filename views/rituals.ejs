@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html manifest="../rituals.appcache">
 <% include partials/head %>
 <body>
   <div id='content' />
@@ -114,14 +114,14 @@ var RitualsApp = React.createClass({
                   <input className='form-control' name='pullQuantity' type='text' value={this.state.pullQuantity} onChange={this.onPullQuantityChange} />
                 </div>
               </div>
-              <button type='submit' className='btn btn-default'>Pull</button>
+              <button type='submit' className='btn btn-default btn-primary'>Pull</button>
             </fieldset>
           </form>);
     } else {
         form = ( <form onSubmit={this.fillBag} role='form' className='form-horizontal' >
             <fieldset>
               <ColorList colors={this.state.colorQuantities} onQuantityChange={this.onQuantityChange} />
-              <button type='submit' className='btn btn-default'>Fill Bag</button>
+              <button type='submit' className='btn btn-default btn-primary'>Fill Bag</button>
               </fieldset>
           </form>);
     }

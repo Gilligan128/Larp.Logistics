@@ -27,14 +27,21 @@ module.exports = function(passport) {
     });
   }));
 
+ if(process.env.allowTestUser || true)
+ {
   passport.use('local-login', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true,
-  },
-  function(req, email, password, done) {
-      return done(null, {email: email});
-  }));
+    },
+    function(req, email, password, done) {
+      debugger;
+       process.nextTick( function() {
+         debugger;
+        done(null, {email: email, name: 'Test Player'});
+      })
+    }));
+  }
 
   passport.use(new FacebookStrategy({
     clientID: configAuth.facebookAuth.clientID,
@@ -45,6 +52,7 @@ module.exports = function(passport) {
   function(token, refreshToken, profile, done) {
     process.nextTick(function() {
       done(null, {
+          name : profile.name.givenName + ' ' + profile.name.familyName,
           facebook : {
             id : profile.id,
             token : token,

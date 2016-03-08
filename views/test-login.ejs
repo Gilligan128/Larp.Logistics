@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<% include partials/head %>
+<body>
+  <div class='col-sm-8 col-sm-offset-2'>
+    <h3>Test Login</h3>
+    <P> Eventually this will give you different roles to login as<p>
+    <form action="/auth/test" method="post">
+      <input name='email' type='hidden' value="test@gmail.com" />
+      <input name='password' type='hidden' value="test" />
+      <button type='submit' class="btn btn-primary" >Login</button>
+    </form>
+</div>
+</body>
+</html>

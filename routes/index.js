@@ -27,6 +27,14 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
   callbackURL: '/auth/facebook/callback'
 }));
 
+router.get('/auth/test', function(req, res) {
+    res.render('test-login.ejs')
+});
+
+router.post('/auth/test', passport.authenticate('local-login', {
+  successRedirect: '/menu',
+}));
+
 router.use('/rituals', require('../features/rituals/routes.js'));
 router.use('/tags', require('../features/tags/routes.js'));
 

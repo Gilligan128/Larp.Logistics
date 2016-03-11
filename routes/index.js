@@ -37,6 +37,7 @@ router.post('/auth/test', passport.authenticate('local-login', {
 
 router.use('/rituals', require('../features/rituals/routes.js'));
 router.use('/tags', require('../features/tags/routes.js'));
+router.use('/characters', require('../features/characters/routes.js'));
 
 module.exports = router;
 

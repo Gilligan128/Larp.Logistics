@@ -1,0 +1,31 @@
+<!doctype html>
+<% include partials/head %>
+<body>
+  <div id='content' />
+  <script src='/static/javascripts/sequences.js' type='text/JavaScript'></script>
+  <% include partials/scripts %>
+<script type="text/babel">
+
+var CreateCharacterApp = React.createClass({
+  getInitialState: function(){
+    return { }
+  },
+  render: function() {
+    var categories = ['Race','Abilities','Resources'];
+    var priorities = [30, 15, 2];
+    return (
+      <form>
+      <ul>
+        {permute(categories)
+          .map(p => p.map((c,i) => `${c} (${priorities[i]})`).join(', '))
+          .map((c, i) => (<li key={`categories ${i}`}>{c}</li>))
+        }
+        </ul>
+      </form>
+    )}
+});
+
+ReactDOM.render(<CreateCharacterApp />, document.getElementById('content'));
+</script>
+</body>
+</html>

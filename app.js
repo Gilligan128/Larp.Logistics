@@ -28,6 +28,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+
 app.use('/static', express.static(__dirname + '/public'));
 app.use('/', generalRoutes);
 app.use('/tags', require('./features/tags/routes.js'))

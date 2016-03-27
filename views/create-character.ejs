@@ -1,31 +1,145 @@
 <!doctype html>
 <% include partials/head %>
 <body>
+  <h3>Create a Character</h3>
   <div id='content' />
   <script src='/static/javascripts/sequences.js' type='text/JavaScript'></script>
   <% include partials/scripts %>
 <script type="text/babel">
+var StarterCategories = React.createClass({
+  render: function(){
+     var categories = this.props.categories;
+     var priorities = this.props.priorities;
+     return (<fieldset className='form-group'>
+         <h4>Choose Starter Build:</h4>
+         {
+           permute(categories)
+          .map(p => p.map((c,i) => `${c} (${priorities[i]})`).join(', '))
+          .map((c, i) => (
+            <div className='radio' key={`category-${i}`}>
+            <label><input name='category' type='radio' key={`category-input-${i}`} value={i} />{c}</label>
+            </div>))
+         }
+       </fieldset>)
+  }
+});
+var InputBlock = React.createClass({
+  render: function(){
+    return <p>placeholder</p>
+  }
+});
+
+var RacialSkills = React.createClass({
+  render: function() {
+    var racials = this.props.racialQuantities;
+    var racialQuantities = racialQuantities;
+    return (
+    <div>
+      <h4>Racials:</h4>
+      {racials.map((racial, i) =>
+        <fieldset className='form-group' key={i}>
+          <label htmlFor={`racial-${i}`}>{racial.name}</label>
+          <input type='number' name={`racial-${i}`} />
+        </fieldset>
+      )}
+    </div>)
+  }
+});
+
+var MainInfo = React.createClass({
+  render: function(){
+    return (
+      <fieldset className='form-group'>
+      <label htmlFor='name'>Name</label>
+      <input type='text' name='name' placeholder='Character name' />
+      <select name='race' onChange={this.props.changeRace}>
+        {
+          this.props.races.map(r => <option>{r}</option>)
+        }
+      </select>
+      </fieldset>
+    )
+  }
+});
+
+var AbilityCategory = React.createClass({
+  render: function(){
+    return (
+      <div>
+      <h4>{this.props.ability.name}</h4>
+      {
+        this.props.abilities.map(<p>placeholder</p>)
+      }
+      </div>
+    )
+  }
+});
+
+var AbilityCategories = React.createClass({
+  render: function(){
+    return (
+      <div>
+       {
+        this.props.selectedAbilityCategories.map(a => <Ability ability={a} />)
+       }
+       <select name='more_abilities' >
+        <option>Weapon Mastery</option>
+        <option>Adept</option>
+        <option>Rogue</option>
+       </select>
+      </div>
+    )
+  }
+});
 
 var CreateCharacterApp = React.createClass({
   getInitialState: function(){
-    return { }
+    var all = {
+      Ghoul: [
+      {name: 'Blood Strength', cost: 10}, {name: 'Blood Healing', cost: 10},
+      {name: 'Claws', cost: 4}, {name:'Enhance Strength', cost:6}],
+      Goblin: [
+        {name: 'Bonus - Club', cost: 3}, {name: 'Bonus - Cudgel', cost: 3,},
+        {name: 'Cannot use Psionics', cost: -2}, {name: 'Dimwitted', cost: -5},
+        {name: 'Resist Disease', cost: 2}, {name: 'Resist Poison', cost: 3}
+      ]
+    };
+    return {
+      allRacials: all,
+      currentRace: Object.keys(all)[0],
+      selectedAbilities: [
+      ]
+    }
+  },
+  changeRace: function(event) {
+    this.setState({
+      currentRace: event.target.value
+    });
   },
   render: function() {
     var categories = ['Race','Abilities','Resources'];
     var priorities = [30, 15, 2];
+    var racials = this.state.allRacials[this.state.currentRace];
+    var racialQuantities = racials.map(function(r){ return {
+      name: r.name,
+      quantitiy: 0
+    };});
+
     return (
-      <form>
-      <ul>
-        {permute(categories)
-          .map(p => p.map((c,i) => `${c} (${priorities[i]})`).join(', '))
-          .map((c, i) => (<li key={`categories ${i}`}>{c}</li>))
-        }
-        </ul>
-      </form>
+      <div className='container'>
+        <form>
+          <MainInfo races={ Object.keys(this.state.allRacials)} changeRace={this.changeRace} currentRace={this.state.currentRace} />
+          <StarterCategories categories={categories} priorities={priorities} />
+          <RacialSkills racialQuantities={racialQuantities} />
+          <AbilityCategories selectedAbilityCategories={this.state.selectedAbilities} />
+        </form>
+      </div>
     )}
 });
 
 ReactDOM.render(<CreateCharacterApp />, document.getElementById('content'));
+
+
 </script>
 </body>
 </html>

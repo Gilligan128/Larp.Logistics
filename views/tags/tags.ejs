@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+ <% include ../partials/head %>
+ <body>
+ <div id="content" />
+ <% include ../partials/scripts %>Z
+      </div>
+     </div>
+    </div>
+  )
+});
+
+var PendingTags = React.createClass({
+  render: () => (
+    <span />
+  )
+});
+
+var NewTag = React.createClass({
+  render: () => {
+    <span />
+  }
+});
+
+var PendingTagForm = React.createClass({
+  render: () => (
+    <form>
+      <PendingTags />
+      <NewTag />
+    </form>
+  )});
+
+var QueuedTags = React.createClass({
+  render: function() { return
+      <div>
+      {
+      this.props.tags.map(tag => <Tag tag={tag} />)
+      }
+      </div>
+}
+});
+
+var TagApp = React.createClass({
+  getInitialState: function() {
+     return {
+      queuedTags: [{}],
+      pendingTags: [],
+      tagTemplate: {
+        Incant: `nothing`,
+        Chapter: `Sentinel`,
+        Rank: 1,
+        Title: `Alchemical Pure Water`,
+        DateCreated: Date()
+      }
+    }
+  },
+  render: function() {
+    return (
+      <QueuedTags tags={this.state.queuedTags} />
+    )
+  }
+});
+
+      ReactDOM.render(
+        <TagApp />,
+        document.getElementById('content')
+      );
+    </script>
+ </body>
+</html>

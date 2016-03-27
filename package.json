@@ -7,7 +7,8 @@
     "browserify": "browserify -t [ babelify --presets [ react ] ] features/**/*.js | uglifyjs > public/javascripts/bundle.js",
     "watchify": "watchify -t [babelify --presets [ react ] ] features/**/*.js -o 'uglifyjs > public/javascripts/bundle.js' ",
     "test": "mocha -R nyan tests/**/*-test.js --compilers js:babel-core/register --recursive",
-    "watch": "npm run watchify & supervisor ./bin/www"
+    "supervise": "nodemon ./bin/www --exec babel-node ",
+    "babel": "babel-node ./bin/www"
   },
   "dependencies": {
     "babel": "^6.1.18",
@@ -39,5 +40,8 @@
     "testdom": "^2.0.0",
     "uglify-js": "^2.6.2",
     "watchify": "^3.7.0"
+  },
+   "babel": {
+    "presets": ["es2015", "react"]
   }
 }
